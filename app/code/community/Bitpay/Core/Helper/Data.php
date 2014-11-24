@@ -126,6 +126,11 @@ class Bitpay_Core_Helper_Data extends Mage_Core_Helper_Abstract
             )
         );
 
+        if (!$token) {
+            $this->debugData('Token could not be obtained');
+            Mage::throwException('Could not obtain token');
+        }
+
         $this->debugData('Token Obtained');
 
         $config = new \Mage_Core_Model_Config();
