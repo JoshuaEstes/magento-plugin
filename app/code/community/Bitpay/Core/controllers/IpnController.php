@@ -84,6 +84,11 @@ class Bitpay_Core_IpnController extends Mage_Core_Controller_Front_Action
          */
         $invoice = Mage::getModel('bitpay/method_bitcoin')->fetchInvoice($ipn->id);
 
+        if (!$invoice) {
+            Mage::getModel('bitpay/method_bitcoin')->debugData('Could not receive IPN information');
+            Mage::throwException('There was an error processing the ipn');
+        }
+
         // Does the status match?
         if ($invoice && $invoice->getStatus() != $ipn->status) {
             Mage::getModel('bitpay/method_bitcoin')->debugData('IPN status and status from BitPay are different');
